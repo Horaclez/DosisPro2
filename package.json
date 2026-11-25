@@ -1,0 +1,85 @@
+{
+  "name": "dosiscl-pro",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DosisCL Pro - Cálculo clínico y ventanas de seguridad para enfermería",
+  "author": {
+    "name": "DosisCL",
+    "email": "dosiscl@example.com"
+  },
+  "main": "electron/main.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "start": "npm run build && electron .",
+    "dist": "npm run build && electron-builder --publish never",
+    "android": "npm run build && cap add android && node scripts/apply-android-icons.mjs && cap sync android"
+  },
+  "dependencies": {
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8",
+    "esbuild": "0.28.2",
+    "tailwindcss": "4.3.3"
+  },
+  "build": {
+    "appId": "cl.dosiscl.pro",
+    "productName": "DosisCL Pro",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "electron/**/*",
+      "www/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "DosisCL-Pro-Setup-${version}.${ext}",
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Utility",
+      "artifactName": "DosisCL-Pro-${version}.${ext}"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "category": "public.app-category.medical",
+      "identity": null,
+      "artifactName": "DosisCL-Pro-${version}-mac-${arch}.${ext}"
+    }
+  }
+}
